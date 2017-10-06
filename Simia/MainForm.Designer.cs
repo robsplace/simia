@@ -75,14 +75,6 @@
             this.tbWeeks = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvWeek = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownTeasers = new System.Windows.Forms.NumericUpDown();
-            this.btnEditPicks = new System.Windows.Forms.Button();
-            this.cbPlayer = new System.Windows.Forms.ComboBox();
-            this.lblPlayer = new System.Windows.Forms.Label();
-            this.lblWeek = new System.Windows.Forms.Label();
-            this.cbWeek = new System.Windows.Forms.ComboBox();
             this.GameId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HomeTeam = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +84,14 @@
             this.Favourite = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Spread = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsGameDone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDownTeasers = new System.Windows.Forms.NumericUpDown();
+            this.btnEditPicks = new System.Windows.Forms.Button();
+            this.cbPlayer = new System.Windows.Forms.ComboBox();
+            this.lblPlayer = new System.Windows.Forms.Label();
+            this.lblWeek = new System.Windows.Forms.Label();
+            this.cbWeek = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.pnlSplashScreen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -555,6 +555,7 @@
             this.dgvWeek.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvWeek.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvWeek.Location = new System.Drawing.Point(3, 38);
+            this.dgvWeek.MultiSelect = false;
             this.dgvWeek.Name = "dgvWeek";
             this.dgvWeek.RowHeadersVisible = false;
             this.dgvWeek.Size = new System.Drawing.Size(764, 450);
@@ -562,6 +563,82 @@
             this.dgvWeek.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ResetChangedItem);
             this.dgvWeek.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.SkipReadonlyDataGridViewCell);
             this.dgvWeek.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.InitializeFavouriteColumn);
+            // 
+            // GameId
+            // 
+            this.GameId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.GameId.DataPropertyName = "Id";
+            this.GameId.HeaderText = "Id";
+            this.GameId.Name = "GameId";
+            this.GameId.Visible = false;
+            // 
+            // GameTime
+            // 
+            this.GameTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.GameTime.DataPropertyName = "GameTime";
+            this.GameTime.HeaderText = "Kickoff";
+            this.GameTime.Name = "GameTime";
+            this.GameTime.ReadOnly = true;
+            this.GameTime.Width = 65;
+            // 
+            // HomeTeam
+            // 
+            this.HomeTeam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.HomeTeam.DataPropertyName = "HomeTeam";
+            this.HomeTeam.HeaderText = "Home Team";
+            this.HomeTeam.Name = "HomeTeam";
+            this.HomeTeam.ReadOnly = true;
+            this.HomeTeam.Width = 90;
+            // 
+            // HomeScore
+            // 
+            this.HomeScore.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.HomeScore.DataPropertyName = "HomeScore";
+            this.HomeScore.HeaderText = "Score";
+            this.HomeScore.Name = "HomeScore";
+            this.HomeScore.ReadOnly = true;
+            this.HomeScore.Width = 60;
+            // 
+            // AwayTeam
+            // 
+            this.AwayTeam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.AwayTeam.DataPropertyName = "AwayTeam";
+            this.AwayTeam.HeaderText = "Away Team";
+            this.AwayTeam.Name = "AwayTeam";
+            this.AwayTeam.ReadOnly = true;
+            this.AwayTeam.Width = 88;
+            // 
+            // AwayScore
+            // 
+            this.AwayScore.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.AwayScore.DataPropertyName = "AwayScore";
+            this.AwayScore.HeaderText = "Score";
+            this.AwayScore.Name = "AwayScore";
+            this.AwayScore.ReadOnly = true;
+            this.AwayScore.Width = 60;
+            // 
+            // Favourite
+            // 
+            this.Favourite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Favourite.DataPropertyName = "Favourite";
+            this.Favourite.HeaderText = "Favourite";
+            this.Favourite.Name = "Favourite";
+            // 
+            // Spread
+            // 
+            this.Spread.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Spread.DataPropertyName = "Spread";
+            this.Spread.HeaderText = "Spread";
+            this.Spread.Name = "Spread";
+            this.Spread.Width = 50;
+            // 
+            // IsGameDone
+            // 
+            this.IsGameDone.DataPropertyName = "IsGameDone";
+            this.IsGameDone.HeaderText = "IsGameDone";
+            this.IsGameDone.Name = "IsGameDone";
+            this.IsGameDone.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsGameDone.Visible = false;
             // 
             // panel1
             // 
@@ -664,82 +741,6 @@
             this.cbWeek.Size = new System.Drawing.Size(121, 21);
             this.cbWeek.TabIndex = 0;
             this.cbWeek.SelectedValueChanged += new System.EventHandler(this.SetCurrentWeek);
-            // 
-            // GameId
-            // 
-            this.GameId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.GameId.DataPropertyName = "Id";
-            this.GameId.HeaderText = "Id";
-            this.GameId.Name = "GameId";
-            this.GameId.Visible = false;
-            // 
-            // GameTime
-            // 
-            this.GameTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.GameTime.DataPropertyName = "GameTime";
-            this.GameTime.HeaderText = "Kickoff";
-            this.GameTime.Name = "GameTime";
-            this.GameTime.ReadOnly = true;
-            this.GameTime.Width = 65;
-            // 
-            // HomeTeam
-            // 
-            this.HomeTeam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.HomeTeam.DataPropertyName = "HomeTeam";
-            this.HomeTeam.HeaderText = "Home Team";
-            this.HomeTeam.Name = "HomeTeam";
-            this.HomeTeam.ReadOnly = true;
-            this.HomeTeam.Width = 90;
-            // 
-            // HomeScore
-            // 
-            this.HomeScore.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.HomeScore.DataPropertyName = "HomeScore";
-            this.HomeScore.HeaderText = "Score";
-            this.HomeScore.Name = "HomeScore";
-            this.HomeScore.ReadOnly = true;
-            this.HomeScore.Width = 60;
-            // 
-            // AwayTeam
-            // 
-            this.AwayTeam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.AwayTeam.DataPropertyName = "AwayTeam";
-            this.AwayTeam.HeaderText = "Away Team";
-            this.AwayTeam.Name = "AwayTeam";
-            this.AwayTeam.ReadOnly = true;
-            this.AwayTeam.Width = 88;
-            // 
-            // AwayScore
-            // 
-            this.AwayScore.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.AwayScore.DataPropertyName = "AwayScore";
-            this.AwayScore.HeaderText = "Score";
-            this.AwayScore.Name = "AwayScore";
-            this.AwayScore.ReadOnly = true;
-            this.AwayScore.Width = 60;
-            // 
-            // Favourite
-            // 
-            this.Favourite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Favourite.DataPropertyName = "Favourite";
-            this.Favourite.HeaderText = "Favourite";
-            this.Favourite.Name = "Favourite";
-            // 
-            // Spread
-            // 
-            this.Spread.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Spread.DataPropertyName = "Spread";
-            this.Spread.HeaderText = "Spread";
-            this.Spread.Name = "Spread";
-            this.Spread.Width = 50;
-            // 
-            // IsGameDone
-            // 
-            this.IsGameDone.DataPropertyName = "IsGameDone";
-            this.IsGameDone.HeaderText = "IsGameDone";
-            this.IsGameDone.Name = "IsGameDone";
-            this.IsGameDone.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsGameDone.Visible = false;
             // 
             // MainForm
             // 
