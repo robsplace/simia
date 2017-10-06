@@ -94,7 +94,7 @@ namespace Simia.Entities
                 {
                     scoreDifference -= game.Spread;
                 }
-                else
+                else if (game.Favourite.EndsWith(game.AwayTeam, StringComparison.OrdinalIgnoreCase))
                 {
                     scoreDifference += game.Spread;
                 }

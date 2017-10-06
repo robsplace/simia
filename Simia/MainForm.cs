@@ -643,13 +643,48 @@ namespace Simia
         {
             foreach (DataGridViewRow row in dgvWeek.Rows)
             {
+                var game = row.DataBoundItem as Game;
+
                 switch (row.Cells["Favourite"])
                 {
                     case DataGridViewComboBoxCell cell:
                         cell.Items.Clear();
-                        cell.Items.Add(((Game)row.DataBoundItem).HomeTeam);
-                        cell.Items.Add(((Game)row.DataBoundItem).AwayTeam);
+                        cell.Items.Add(game.HomeTeam);
+                        cell.Items.Add(game.AwayTeam);
                         break;
+                }
+
+                decimal scoreDifference = game.HomeScore - game.AwayScore;
+
+                // don't forget to include the spread!
+                if (game.Favourite.Equals(game.HomeTeam, StringComparison.OrdinalIgnoreCase))
+                {
+                    scoreDifference -= game.Spread;
+                }
+                else if (game.Favourite.EndsWith(game.AwayTeam, StringComparison.OrdinalIgnoreCase))
+                {
+                    scoreDifference += game.Spread;
+                }
+
+                if (scoreDifference > 0)
+                {
+                    if (row.Cells["HomeTeam"] != null)
+                    {
+                        row.Cells["HomeTeam"].Style.BackColor = System.Drawing.Color.LightGreen;
+                        row.Cells["HomeScore"].Style.BackColor = System.Drawing.Color.LightGreen;
+                        row.Cells["AwayTeam"].Style.BackColor = System.Drawing.Color.LightPink;
+                        row.Cells["AwayScore"].Style.BackColor = System.Drawing.Color.LightPink;
+                    }
+                }
+                else if (scoreDifference < 0)
+                {
+                    if (row.Cells["AwayTeam"] != null)
+                    {
+                        row.Cells["AwayTeam"].Style.BackColor = System.Drawing.Color.LightGreen;
+                        row.Cells["AwayScore"].Style.BackColor = System.Drawing.Color.LightGreen;
+                        row.Cells["HomeTeam"].Style.BackColor = System.Drawing.Color.LightPink;
+                        row.Cells["HomeScore"].Style.BackColor = System.Drawing.Color.LightPink;
+                    }
                 }
             }
         }
