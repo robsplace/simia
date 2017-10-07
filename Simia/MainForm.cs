@@ -307,7 +307,8 @@ namespace Simia
                             GameTime = new DateTime(gameYear, gameMonth, gameDay).AddHours(12) + gameTime,
                             HomeTeam = (homeTeamCity + " " + homeTeamName).ToUpper(),
                             AwayTeam = (visitorTeamCity + " " + visitorTeamName),
-                            IsGameDone = ("F".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase))
+                            IsGameDone = ("F".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase)
+                                        || "FO".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase))
                         };
 
                         game.Favourite = game.HomeTeam;
@@ -335,7 +336,8 @@ namespace Simia
                     uint gameId = uint.Parse(gameElement.Attributes["eid"].Value);
                     var strHomeScore = gameElement.Attributes["hs"].Value;
                     var strAwayScore = gameElement.Attributes["vs"].Value;
-                    var isGameDone = "F".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase);
+                    var isGameDone = "F".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase)
+                                    || "FO".Equals(gameElement.Attributes["q"].Value, StringComparison.OrdinalIgnoreCase);
 
                     if (!int.TryParse(strHomeScore, out var homeScore))
                     {
@@ -594,7 +596,7 @@ namespace Simia
                     {
                         selectedPlayersPicks.Add(game, new Pick() { Team = userPicksForm.Picks[game].Team, Teaser = userPicksForm.Picks[game].Teaser });
                     }
-                    CurrentWeek.UpdateUserScore(selectedPlayer);
+                    UpdateScores();
                     MarkDirty();
                     break;
                 case DialogResult.Cancel:
@@ -643,13 +645,41 @@ namespace Simia
         {
             foreach (DataGridViewRow row in dgvWeek.Rows)
             {
+                var game = row.DataBoundItem as Game;
+
                 switch (row.Cells["Favourite"])
                 {
                     case DataGridViewComboBoxCell cell:
                         cell.Items.Clear();
-                        cell.Items.Add(((Game)row.DataBoundItem).HomeTeam);
-                        cell.Items.Add(((Game)row.DataBoundItem).AwayTeam);
+                        cell.Items.Add(game.HomeTeam);
+                        cell.Items.Add(game.AwayTeam);
                         break;
+                }
+
+                if (game.IsGameDone)
+                {
+                    decimal scoreDifference = game.GetScoreDifference();
+
+                    if (scoreDifference > 0)
+                    {
+                        if (row.Cells["HomeTeam"] != null)
+                        {
+                            row.Cells["HomeTeam"].Style.BackColor = System.Drawing.Color.LightGreen;
+                            row.Cells["HomeScore"].Style.BackColor = System.Drawing.Color.LightGreen;
+                            row.Cells["AwayTeam"].Style.BackColor = System.Drawing.Color.LightPink;
+                            row.Cells["AwayScore"].Style.BackColor = System.Drawing.Color.LightPink;
+                        }
+                    }
+                    else if (scoreDifference < 0)
+                    {
+                        if (row.Cells["AwayTeam"] != null)
+                        {
+                            row.Cells["AwayTeam"].Style.BackColor = System.Drawing.Color.LightGreen;
+                            row.Cells["AwayScore"].Style.BackColor = System.Drawing.Color.LightGreen;
+                            row.Cells["HomeTeam"].Style.BackColor = System.Drawing.Color.LightPink;
+                            row.Cells["HomeScore"].Style.BackColor = System.Drawing.Color.LightPink;
+                        }
+                    }
                 }
             }
         }
@@ -829,8 +859,10 @@ namespace Simia
                         case 16: { playerScores.Week17Score = score; break; }
                     }
                 }
+
                 allPlayerScores.Add(playerScores);
             }
+
             dgvScores.DataSource = allPlayerScores;
         }
 
