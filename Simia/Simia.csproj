@@ -51,6 +51,7 @@
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Pick.cs" />
     <Compile Include="Entities\Season.cs" />
+    <Compile Include="Entities\SortableBindingList.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Week.cs" />
     <Compile Include="MainForm.cs">

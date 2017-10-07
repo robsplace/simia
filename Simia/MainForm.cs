@@ -826,11 +826,12 @@ namespace Simia
             }
         }
 
+        private static Random _random = new Random();
         private void UpdateScores()
         {
             CurrentSeason.UpdateScores();
 
-            var allPlayerScores = new List<PlayerScoresViewModel>();
+            var allPlayerScores = new SortableBindingList<PlayerScoresViewModel>();
             foreach (var player in CurrentSeason.Players)
             {
                 var playerScores = new PlayerScoresViewModel() { Name = player.DisplayName, TotalScore = 0 };
@@ -838,6 +839,7 @@ namespace Simia
                 {
                     var score = CurrentSeason.Weeks[i].Scores[player];
                     playerScores.TotalScore += score;
+                    playerScores.Place = _random.Next(16) + 1;
                     switch (i)
                     {
                         case 0: { playerScores.Week1Score = score; break; }
