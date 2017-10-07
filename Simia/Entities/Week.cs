@@ -17,11 +17,11 @@ namespace Simia.Entities
         {
             foreach (var user in users)
             {
-                UpdateUserScore(user);
+                UpdateUserScores(user);
             }
         }
 
-        public void UpdateUserScore(User user)
+        public void UpdateUserScores(User user)
         {
             var teaserGames = new List<Game>[NumTeasers];
             var regularGames = new List<Game>();
@@ -73,7 +73,7 @@ namespace Simia.Entities
                 }
             }
 
-            // first calculate all the score differences, rather than copy and pasta teh logic down below twice
+            // first calculate all the score differences and cache selected teams, rather than copy and pasta teh logic down below twice
             foreach (var game in Games.Where((game) => game.IsGameDone))
             {
                 // if the user didn't make a pick for this game, default is the favourite
@@ -87,19 +87,7 @@ namespace Simia.Entities
                     selectedTeams[game] = game.Favourite ?? string.Empty;
                 }
 
-                decimal scoreDifference = game.HomeScore - game.AwayScore;
-
-                // don't forget to include the spread!
-                if (game.Favourite.Equals(game.HomeTeam, StringComparison.OrdinalIgnoreCase))
-                {
-                    scoreDifference -= game.Spread;
-                }
-                else if (game.Favourite.EndsWith(game.AwayTeam, StringComparison.OrdinalIgnoreCase))
-                {
-                    scoreDifference += game.Spread;
-                }
-
-                scoreDifferences[game] = scoreDifference;
+                scoreDifferences[game] = game.GetScoreDifference();
             }
 
             // count correct picks for all regular games
@@ -129,11 +117,11 @@ namespace Simia.Entities
                 {
                     if (selectedTeams[game].Equals(game.HomeTeam, StringComparison.OrdinalIgnoreCase))
                     {
-                        scoreDifferences[game] += game.Spread;
+                        scoreDifferences[game] += 7;
                     }
                     else
                     {
-                        scoreDifferences[game] -= game.Spread;
+                        scoreDifferences[game] -= 7;
                     }
 
                     if (selectedTeams[game].Equals(game.HomeTeam, StringComparison.OrdinalIgnoreCase))
